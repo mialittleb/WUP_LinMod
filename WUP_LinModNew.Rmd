@@ -50,6 +50,10 @@ This plot shows that as arm strength increases the sims score increases as well.
 
 ### Numerical results
 
+```{r}
+cor(SIMS~ARM,data=data)
+```
+The correlation between the two variables is 0.6860073 which shows that their is a positive correlation.
 
 ### Inferential  (Build model.1)
 
