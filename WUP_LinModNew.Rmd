@@ -170,7 +170,7 @@ summary.lm(model.1)
 ```
  
 The anova shows that there is a difference in the models, the p-value is 0.000004 
-Model 2 SIMS~ARM+GRIP is better than Model 1 SIMS~ARM because the rss in model 2 is 188.
+Model 2 SIMS~ARM+GRIP is better than Model 1 SIMS~ARM because the rss in model 2 is 188.  
 
 
 ### Model.2 vs Model.3
