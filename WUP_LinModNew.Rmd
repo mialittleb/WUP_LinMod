@@ -53,15 +53,46 @@ This plot shows that as arm strength increases the sims score increases as well.
 ```{r}
 cor(SIMS~ARM,data=data)
 ```
-The correlation between the two variables is 0.6860073 which shows that their is a positive correlation.
+The correlation between the two variables is 0.6860073 which shows that their is a positive correlation in which ARM increases.
 
-### Inferential  (Build model.1)
+### Inferential   (Build linear model) 
+
+```{r}
+model.1 <- lm(SIMS~ARM,data=data)
+summary.lm(model.1)
+```
+
+The P-value for the intercept is 0.000000000000000
+The P-value for the slope is
+
+
+#### Scatterplot with model fit
+```{r}
+plot(SIMS~ARM,data=data) 
+abline(model.1, col='red')
+```
 
 #### Predict at target point
 
+```{r}
+newdata= data.frame(ARM=88, GRIP=94)
+predict(model.1, newdata, interval = 'pred')
+```
 
-#### scatterplot with model fit
-  
+The SIMS prediction for ARM=88, is 0.71.
+The predicting interval is (-1.73,314)
+
+
+
+### Numerical results
+
+```{r} 
+df= data.frame(SIMS=data$SIMS,GRIP=data$GRIP,ARM=data$ARM)
+cor(df)
+```
+
+Correlation matrix shows that sims correlates with grip and arm. 
+Also,grip and arm correlate with each other
 
 ## Model 2 SIM~GRIP
 
@@ -71,29 +102,77 @@ The correlation between the two variables is 0.6860073 which shows that their is
 ### Numerical results 
 
 
-### Inferential  (Build model.2)
+### Inferential  (Build model.2) 
+
   
 
 #### predict model.2 at target point
 
-#### now add the model fit to our plot for model.2
-  
 
 
-## Model 3 SIM~ARM+GRIP
 
-### Numerical results (cor)
 
+## Model 3 SIM~ARM+GRIP 
+
+Prediction interval of SIMS given a value of 94  for GRIP and 88 for ARM.
+
+### Numerical results (cor) 
+
+```{r}
+df=data.frame(SIMS=data$SIMS,GRIP=data$GRIP, ARM=data$ARM) 
+cor(df)
+```
+Correlation matrix shows that sims correlates with grip and arm. 
+Also,grip and arm correlate with each other
 `
   
-### Inferential  (Build 2-dimentional model.3)
+### Inferential  (Build 2-dimentional model.3) 
+
+```{r}
+model.3 = lm(SIMS ~ ARM + GRIP, data= data) 
+summary.lm(model.3)
+```
+
+The P-value for the F-statistic is 0.00000000000000002.
+This means the data fits the model 
+
+P-value for the model perimeters intercept= 0.0000000000000002. , coofiicient of ARM=0.00000000150., and coefficient of GRIP= 0.00000499.
+
+
+
+
 
 #### predict model.3 at target point
-  
 
-## Comparing nested models ANOVA Test
+prediction interval of SIMS given a value of 94  for GRIP and 88 as for ARM.
+
+```{r}
+newdata = data.frame(GRIP=94, ARM=88) 
+predSIMS = predict(model.3, newdata, interval = 'pred' ) 
+print(predSIMS)
+```
+
+The predicted SIMS score for GRIP=94, ARM=88 is 0.150,the interval predictions are (-2.13, 2.43) 
+
+
+
+## Comparing nested models ANOVA Test 
 
 ### Model.1 vs Model.3
+
+```{r}
+model.1 = lm(SIMS ~ ARM, data= data) 
+anova(model.1, model.3)
+```
+ 
+```{r}
+summary.lm(model.1)
+```
+ 
+The anova shows that there is a difference in the models, the p-value is 0.000004 
+Model 2 SIMS~ARM+GRIP is better than Model 1 SIMS~ARM because the rss in model 2 is 188.
+
+
 ### Model.2 vs Model.3
 
 ## Informally compare Model.1 with model.2
