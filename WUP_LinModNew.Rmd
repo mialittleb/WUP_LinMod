@@ -55,15 +55,12 @@ cor(SIMS~ARM,data=data)
 ```
 The correlation between the two variables is 0.6860073 which shows that their is a positive correlation in which ARM increases.
 
-### Inferential   (Build linear model) 
+### Inferential   (Build model 1) 
 
 ```{r}
 model.1 <- lm(SIMS~ARM,data=data)
 summary.lm(model.1)
 ```
-
-The P-value for the intercept is 0.000000000000000
-The P-value for the slope is
 
 
 #### Scatterplot with model fit
@@ -71,6 +68,10 @@ The P-value for the slope is
 plot(SIMS~ARM,data=data) 
 abline(model.1, col='red')
 ```
+
+The p-value for the intercept and slope are 0.00000000000000022,
+We reject the null hypothesis because its smaller than 0.5
+
 
 #### Predict at target point
 
@@ -82,32 +83,37 @@ predict(model.1, newdata, interval = 'pred')
 The SIMS prediction for ARM=88, is 0.71.
 The predicting interval is (-1.73,314)
 
-
+## Model 2 SIM~GRIP
 
 ### Numerical results
 
-```{r} 
-df= data.frame(SIMS=data$SIMS,GRIP=data$GRIP,ARM=data$ARM)
-cor(df)
+```{r}
+cor(SIMS~ARM,data=data)
 ```
 
-Correlation matrix shows that sims correlates with grip and arm. 
+This Correlation matrix 0.6860 is posotive therefore it shows that sims correlates with grip and arm. 
 Also,grip and arm correlate with each other
 
-## Model 2 SIM~GRIP
-
-### Now add in scatterplot
-
-
-### Numerical results 
 
 
 ### Inferential  (Build model.2) 
 
+```{r}
+model.2 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.2)
+```
+
   
 
-#### predict model.2 at target point
+#### Predict model.2 at target point 
 
+
+```{r}
+newdata = data.frame(ARM = 88, GRIP=94) 
+predict(model.2, newdata, interval='pred')
+```
+
+The sims prediction for GRIP=94 is 0.5 and the prediction interval is (-3.10, 203)
 
 
 
@@ -139,9 +145,6 @@ This means the data fits the model
 P-value for the model perimeters intercept= 0.0000000000000002. , coofiicient of ARM=0.00000000150., and coefficient of GRIP= 0.00000499.
 
 
-
-
-
 #### predict model.3 at target point
 
 prediction interval of SIMS given a value of 94  for GRIP and 88 as for ARM.
@@ -153,7 +156,6 @@ print(predSIMS)
 ```
 
 The predicted SIMS score for GRIP=94, ARM=88 is 0.150,the interval predictions are (-2.13, 2.43) 
-
 
 
 ## Comparing nested models ANOVA Test 
@@ -175,5 +177,28 @@ Model 2 SIMS~ARM+GRIP is better than Model 1 SIMS~ARM because the rss in model 2
 
 ### Model.2 vs Model.3
 
-## Informally compare Model.1 with model.2
+```{r}
+model.2=lm(SIMS ~ GRIP, data=data) 
+anova(model.2, model.3)
+```
+
+```{r}
+summary.lm(model.1)
+```
+
+Model SIMS~ARM+GRIP is better than model SIMS~GRIP because the rss is lower (188) the p-value is 0.00000000000000014
+
+
+## Informally compare Model.1 with model.2 
+
+```{r}
+summary.lm(model.1)
+```
+
+```{r}
+summary.lm(model.2)
+```
+
+Model 1 SIMS~ARM is better than model 2 SIMS~GRIP.
+
 
